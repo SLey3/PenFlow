@@ -1,0 +1,5 @@
+# Note: any third-party libraries SHOULD be added here
+# Note: make sure to install all these requirements before working
+
+flask # backend framework
+psycopg2-binary # for postgress database
