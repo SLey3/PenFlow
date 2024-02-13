@@ -1,0 +1,11 @@
+{
+  "license" : "MIT",
+  "author" : "Sergio Ley Languren",
+  "contributors": [
+    "Addie Gage",
+    "Kendall Leonard"
+  ],
+  "dependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

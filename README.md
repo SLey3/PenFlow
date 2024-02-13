@@ -9,7 +9,8 @@ Both steps must be completed:
 pip install -r requirements.txt
 ```
 
-2) To Install Node Requirements
+2) To Install Node Requirements:
 ```
+cd site
 npm install -D tailwindcss
 ```
