@@ -2,5 +2,6 @@
 # Note: make sure to install all these requirements before working
 
 flask # backend framework
+dotenv # Development env file parser
 gunicorn # deployment process
 psycopg2-binary # for postgress database
