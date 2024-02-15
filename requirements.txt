@@ -1,7 +1,10 @@
-# Note: any third-party libraries SHOULD be added here
+# Note: any third-party libraries that are for production SHOULD be added here
+# ------------------------------------------------------------------------------------
+# Note: if any third-[arty library that is only used for development is used
+# or linters/styliers, add them to dev-requirements.txt NOT here
+# ------------------------------------------------------------------------------------
 # Note: make sure to install all these requirements before working
 
 flask # backend framework
-dotenv # Development env file parser
 gunicorn # deployment process
 psycopg2-binary # for postgress database

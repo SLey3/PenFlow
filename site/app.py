@@ -1,6 +1,11 @@
 # Imports
 from flask import Flask
-from dotenv import dotenv_values
+try:
+    from dotenv import dotenv_values
+    dotenv_exists = True
+except:
+    # error only raised if project is in production
+    dotenv_exists = False
 from routes import routes
 import os
 
@@ -8,12 +13,12 @@ import os
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
 # App Config initialization
-if os.environ.get("TESTING"): # tests whether site is in production or development, os.environ.get("TESTING") -> None = development
-    app.config.from_mapping(os.environ)
-else:
+if dotenv_exists:
     app.config.from_mapping(dotenv_values(".env"))
     app.config["TESTING"] = True
     app.config["DEBUG"] = True
+else:
+    app.config.from_mapping(os.environ)
 
 # Blueprint registrations
 app.register_blueprint(routes)
