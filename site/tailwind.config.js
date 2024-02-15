@@ -1,11 +1,16 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./templates/**/*.html",
     "./static/src/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily : {
+        protest : ['"Protest Riot"', "sans-serif"]
+      }
+    },
   },
   plugins: [],
 }

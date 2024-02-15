@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="author" content="Sergio Ley Languren" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="initial-scale: 1.0" />
+        <meta charset="utf-8" />
+        <link href="{{ url_for('static', filename='dist/css/output.css') }}" rel="stylesheet" />
+        {% block style %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block scripts %}{% endblock %}
+    </body>
+</html>
