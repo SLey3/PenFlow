@@ -7,6 +7,7 @@ Both steps must be completed:
 1) To Install Python Requirements:
 ```
 pip install -r requirements.txt
+pip install -r dev-requirements.txt
 ```
 
 2) To Install Node Requirements:
