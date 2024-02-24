@@ -1,10 +1,214 @@
 {% extends './layout/layout.html' %}
 {% block style %}
-<!-- this will be in the header element -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,530;1,530&family=PT+Sans&display=swap" rel="stylesheet">
+<style>
+    #head {
+        padding: 0.15rem;
+        margin-bottom: 0.75rem;
+    }
+</style>
 {% endblock %}
 {% block body %}
-<p class="pl-3 py-3 m-4 font-serif text-2xl capitalize hover:font-protest hover:font-bold">coming soon...</p>
+<div class="container mx-auto">
+    <div id="head">
+        <span class="flex box-decoration-slice bg-gradient-to-l from-sky-500 to-fuchsia-500
+        font-dancing text-gray-400 text-4xl subpixel-antialiased tracking-wider
+        items-center p-4 h-20">
+            Penflow Note Taking
+        </span>
+        <nav class="bg-slate-50 border-slate-50">
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+                <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap"><i class="fa-regular fa-compass"></i> Menu</span>
+                </a>
+                <button data-collapse-toggle="penflow-navbar" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-slate-200 rounded-lg
+                md:hidden hover:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400" aria-controls="penflow-navbar" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                    </svg>
+                </button>
+                <div class="hidden w-full md:block md:w-auto" id="penflow-navbar">
+                    <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-slate-200 rounded-lg bg-slate-100 md:bg-slate-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                      <li>
+                        <a href="#" class="block py-2 px-3 text-slate-400 bg-slate-100 md:bg-slate-50 md:hover:text-slate-700 rounded md:p-0" aria-current="page">Home</a>
+                      </li>
+                      <li>
+                        <button id="accountNavbarLink" data-dropdown-toggle="accountNavbar" class="flex items-center justify-between w-full py-2 px-3 text-slate-400 rounded hover:bg-gray-100 
+                        md:hover:bg-transparent md:border-0 md:hover:text-slate-700 md:p-0 md:w-auto">
+                            Account
+                            <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                            </svg>
+                        </button>
+                        <!-- Dropdown menu -->
+                        <div id="accountNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                            <ul class="py-2 text-sm text-slate-400" aria-labelledby="dropdownLargeButton">
+                                <!-- TODO: Check will be implemented to check if the current user is signed in and if so, remove the login option -->
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-slate-200">Login</a>
+                                </li>
+                                <!-- TODO: Check will be implemented to check if the current user is signed out and if so, offer a Register option -->
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-slate-200">Register</a>
+                                </li>
+                                <!-- TODO: Check will be implemented to check if the current user is signed in and if so, offer a Settings option -->
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-slate-200">Settings</a>
+                                </li>
+                            </ul>
+                            <!-- TODO: Check will be implemented to check if current user is signed in and if so, present the Sign out option -->
+                            <div class="py-1">
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-400 hover:bg-slate-200">Sign out</a>
+                            </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+        </nav>
+    </div>
+    <!-- TODO: Here will be an authentication check (Once implemented) to check if the current user is signed in or not and render the page to reflect so -->
+    {# Tempory setting till authentication is properly setup so the page can show both templates dependednt on what the authenticated variable is set too
+        authenticated = false --> SignedOut HTML template is used | authenticated = true --> SignedIn HTML template is used 
+    #}
+    {% set authenticated = false %}
+
+    {% if authenticated %}
+    <p class="text-red-400">Authenticated!</p>
+    {% else %}
+    <section class="bg-white">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 select-none">
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 md:p-12 mb-8">
+                <a href="#" class="bg-gradient-to-r from-cyan-500 to-blue-500 text-blue-800 text-xs font-ptsans font-medium inline-flex items-center px-2.5 py-0.5 rounded-md mb-2 cursor-default">
+                    <i class=" w-2.5 h-1/2 me-1.5 fa-solid fa-info"></i>
+                    Introduction
+                </a>
+                <h1 class="text-gray-900 text-3xl md:text-5xl font-notoserif font-530 mb-2">A new way to take notes <i class="fa-solid fa-paintbrush" style="color: #f264e6;"></i></h1>
+                <p class="text-lg font-ptsans font-normal text-gray-500 mb-6">
+                    <span class="italic">PenFlow</span> provides an interactive, extensive whiteboard for students, employees, and anyone who needs to take notes.
+                </p>
+                <a href="#" class="inline-flex justify-center items-center py-2.5 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+                type="button" data-drawer-target="penflow-intro-drawer" data-drawer-show="penflow-intro-drawer" aria-controls="penflow-intro-drawer">
+                    Read more
+                    <i class="w-3.5 h-3.5 ms-2 rtl:rotate-180 fa-solid fa-book fa-flip-horizontal"></i>
+                </a>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 md:p-12">
+                    <a href="#" class="bg-gradient-to-r from-orange-100 to-amber-300 text-yellow-600 text-xs font-ptsans font-medium inline-flex items-center px-2.5 py-0.5 rounded-md mb-2 cursor-default">
+                        <i class="w-2.5 h-1/2 me-1.5 fa-solid fa-users-gear" aria-hidden="true"></i>
+                        Setup
+                    </a>
+                    <h2 class="text-gray-900 text-3xl font-notoserif font-530 mb-2">Easy Management</h2>
+                    <p class="text-lg font-ptsans font-normal text-gray-500 mb-4">
+                        <span class="italic">PenFlow</span> utilizes very little settings making it very easy to configure when you first sign up.
+                        Our standards demands that managing all your whiteboards be very easy to manage.
+                    </p>
+                    <a href="#" class="text-blue-600 hover:underline font-medium text-lg inline-flex items-center"
+                    type="button" data-drawer-target="penflow-setup-desc-drawer" data-drawer-show="penflow-setup-desc-drawer" aria-controls="penflow-setup-desc-drawer">
+                        Read more
+                        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 md:p-12">
+                    <a href="#" class="bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white text-xs font-ptsans font-medium inline-flex items-center px-2.5 py-0.5 rounded-md mb-2 cursor-default">
+                        <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4 1 8l4 4m10-8 4 4-4 4M11 1 9 15"/>
+                        </svg>
+                        Whiteboard
+                    </a>
+                    <h2 class="text-gray-900 text-3xl font-notoserif font-extrabold mb-2">Extensive Whiteboard</h2>
+                    <p class="text-lg font-ptsans font-normal text-gray-500 mb-4">
+                        Our Whiteboard aims to be as extenive as possible while keeping an ease of use approach.
+                    </p>
+                    <a href="#" class="text-blue-600 hover:underline font-medium text-lg inline-flex items-center"
+                    type="button" data-drawer-target="penflow-whiteboard-desc-drawer" data-drawer-show="penflow-whiteboard-desc-drawer" aria-controls="penflow-whiteboard-desc-drawer">
+                        Read more
+                        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- drawer components -->
+    <div id="penflow-intro-drawer" class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 " tabindex="-1" aria-labelledby="intro-drawer-label">
+        <h5 id="intro-drawer-label" class="inline-flex items-center mb-4 text-base font-notoserif font-semibold text-gray-500">
+            <i aria-hidden="true" class="w-4 h-4 me-2.5 fa-solid fa-book fa-flip-horizontal"></i>What is Penflow?
+        </h5>
+        <button type="button" data-drawer-hide="penflow-intro-drawer" aria-controls="penflow-intro-drawer" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center ">
+           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+           </svg>
+           <span class="sr-only">Close menu</span>
+        </button>
+           
+        <p class="mb-6 font-ptsans text-sm text-gray-500 cursor-none">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu aliquet elit, eget ultricies odio. Donec quis bibendum dolor. Integer at turpis ac odio pharetra iaculis. Aliquam lacinia augue at tempor ultrices. In hac habitasse platea dictumst. Mauris tristique eleifend risus, lobortis gravida orci eleifend ut. Donec in rhoncus mauris. Nunc vitae volutpat odio. Duis vel nibh semper, feugiat velit at, consequat odio. Vestibulum laoreet laoreet sem. Sed arcu turpis, fringilla ac arcu sed, interdum imperdiet nisl. Sed pharetra dolor vitae nibh semper dapibus.
+
+            Nullam auctor efficitur nunc, sit amet vehicula nunc auctor sit amet. Nam a odio vestibulum odio vestibulum dictum vel nec nisl. Phasellus gravida nec purus feugiat fringilla. Cras gravida odio eget ipsum pellentesque, eget placerat sem consequat. Phasellus viverra ornare quam in facilisis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In efficitur tortor non velit aliquam vulputate. Proin consectetur scelerisque risus, id egestas magna fringilla a. Ut egestas tortor et sem fringilla fermentum. Morbi consequat dolor nibh, et sodales odio porta aliquam. Vestibulum ut eros metus. In hac habitasse platea dictumst. Morbi fermentum malesuada dapibus. Aenean dignissim id odio vel laoreet. Maecenas venenatis sit amet dui in condimentum. Nullam augue tortor, congue ac iaculis ac, volutpat ac orci.
+
+            Morbi pharetra sed felis sit amet ornare. Maecenas viverra nec ipsum id pretium. Integer odio magna, eleifend et tincidunt a, rutrum et velit. Vestibulum pulvinar risus sed elementum lacinia. Nam in tempor enim. Nulla sollicitudin tempus vehicula. Nunc sodales ornare mi, sit amet consectetur justo finibus fringilla. Nulla facilisi. Mauris tristique libero ut condimentum blandit. Nam ut lectus pellentesque, pharetra lorem id, maximus metus. Maecenas eleifend urna quis erat pretium lobortis. Ut ut tincidunt turpis, at vestibulum elit. Vestibulum ac nulla elit. Nunc congue sodales lacus, vitae ultricies metus sodales a. Nam tincidunt, magna eget hendrerit egestas, ligula odio convallis tellus, eu mattis lacus justo ut urna.
+
+            Ut lacinia mollis sem, sed commodo magna iaculis id. Nam id ipsum pharetra, ornare diam eu, euismod urna. Proin ipsum arcu, semper vitae euismod eu, vulputate et felis. Nam sit amet blandit magna. Phasellus quam odio, semper tempus urna at, tincidunt volutpat elit. Duis rhoncus sem sit amet finibus placerat. Aliquam lacinia id est vitae luctus. Vestibulum eu turpis a erat semper bibendum. Etiam sit amet consectetur mauris.
+
+            Sed eget gravida erat. In posuere orci sollicitudin, faucibus nisl eget, tincidunt enim. Pellentesque varius lorem tellus, quis pretium quam luctus ac. In vulputate est at mi lobortis, mattis consequat quam vehicula. Morbi sodales molestie vulputate. Curabitur id porta enim. Vivamus porttitor suscipit purus. Mauris accumsan libero a dolor euismod, id hendrerit arcu bibendum. Sed aliquam egestas nunc, at vestibulum elit sollicitudin consequat.
+        </p>
+     </div>
+     <div id="penflow-setup-desc-drawer" class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 " tabindex="-1" aria-labelledby="setup-desc-drawer-label">
+        <h5 id="setup-desc-drawer-label" class="inline-flex items-center mb-4 text-base font-notoserif font-semibold text-gray-500">
+            <i aria-hidden="true" class="w-4 h-4 me-2.5 fa-solid fa-table-cells-large"></i>PenFlow's Ease of Setup and Management
+        </h5>
+        <button type="button" data-drawer-hide="penflow-setup-desc-drawer" aria-controls="penflow-setup-desc-drawer" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center ">
+           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+           </svg>
+           <span class="sr-only">Close menu</span>
+        </button>
+           
+        <p class="mb-6 font-ptsans text-sm text-gray-500 cursor-none">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu aliquet elit, eget ultricies odio. Donec quis bibendum dolor. Integer at turpis ac odio pharetra iaculis. Aliquam lacinia augue at tempor ultrices. In hac habitasse platea dictumst. Mauris tristique eleifend risus, lobortis gravida orci eleifend ut. Donec in rhoncus mauris. Nunc vitae volutpat odio. Duis vel nibh semper, feugiat velit at, consequat odio. Vestibulum laoreet laoreet sem. Sed arcu turpis, fringilla ac arcu sed, interdum imperdiet nisl. Sed pharetra dolor vitae nibh semper dapibus.
+
+            Nullam auctor efficitur nunc, sit amet vehicula nunc auctor sit amet. Nam a odio vestibulum odio vestibulum dictum vel nec nisl. Phasellus gravida nec purus feugiat fringilla. Cras gravida odio eget ipsum pellentesque, eget placerat sem consequat. Phasellus viverra ornare quam in facilisis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In efficitur tortor non velit aliquam vulputate. Proin consectetur scelerisque risus, id egestas magna fringilla a. Ut egestas tortor et sem fringilla fermentum. Morbi consequat dolor nibh, et sodales odio porta aliquam. Vestibulum ut eros metus. In hac habitasse platea dictumst. Morbi fermentum malesuada dapibus. Aenean dignissim id odio vel laoreet. Maecenas venenatis sit amet dui in condimentum. Nullam augue tortor, congue ac iaculis ac, volutpat ac orci.
+
+            Morbi pharetra sed felis sit amet ornare. Maecenas viverra nec ipsum id pretium. Integer odio magna, eleifend et tincidunt a, rutrum et velit. Vestibulum pulvinar risus sed elementum lacinia. Nam in tempor enim. Nulla sollicitudin tempus vehicula. Nunc sodales ornare mi, sit amet consectetur justo finibus fringilla. Nulla facilisi. Mauris tristique libero ut condimentum blandit. Nam ut lectus pellentesque, pharetra lorem id, maximus metus. Maecenas eleifend urna quis erat pretium lobortis. Ut ut tincidunt turpis, at vestibulum elit. Vestibulum ac nulla elit. Nunc congue sodales lacus, vitae ultricies metus sodales a. Nam tincidunt, magna eget hendrerit egestas, ligula odio convallis tellus, eu mattis lacus justo ut urna.
+
+            Ut lacinia mollis sem, sed commodo magna iaculis id. Nam id ipsum pharetra, ornare diam eu, euismod urna. Proin ipsum arcu, semper vitae euismod eu, vulputate et felis. Nam sit amet blandit magna. Phasellus quam odio, semper tempus urna at, tincidunt volutpat elit. Duis rhoncus sem sit amet finibus placerat. Aliquam lacinia id est vitae luctus. Vestibulum eu turpis a erat semper bibendum. Etiam sit amet consectetur mauris.
+
+            Sed eget gravida erat. In posuere orci sollicitudin, faucibus nisl eget, tincidunt enim. Pellentesque varius lorem tellus, quis pretium quam luctus ac. In vulputate est at mi lobortis, mattis consequat quam vehicula. Morbi sodales molestie vulputate. Curabitur id porta enim. Vivamus porttitor suscipit purus. Mauris accumsan libero a dolor euismod, id hendrerit arcu bibendum. Sed aliquam egestas nunc, at vestibulum elit sollicitudin consequat.
+        </p>
+     </div>
+     <div id="penflow-whiteboard-desc-drawer" class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 " tabindex="-1" aria-labelledby="whiteboard-desc-drawer-label">
+        <h5 id="whiteboard-desc-drawer-label" class="inline-flex items-center mb-4 text-base font-notoserif font-semibold text-gray-500">
+            <i aria-hidden="true" class="w-4 h-4 me-2.5 fa-regular fa-paste"></i>PenFlow's Whiteboard Approach
+        </h5>
+        <button type="button" data-drawer-hide="penflow-whiteboard-desc-drawer" aria-controls="penflow-whiteboard-desc-drawer" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center ">
+           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+           </svg>
+           <span class="sr-only">Close menu</span>
+        </button>
+           
+        <p class="mb-6 font-ptsans text-sm text-gray-500 cursor-none">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu aliquet elit, eget ultricies odio. Donec quis bibendum dolor. Integer at turpis ac odio pharetra iaculis. Aliquam lacinia augue at tempor ultrices. In hac habitasse platea dictumst. Mauris tristique eleifend risus, lobortis gravida orci eleifend ut. Donec in rhoncus mauris. Nunc vitae volutpat odio. Duis vel nibh semper, feugiat velit at, consequat odio. Vestibulum laoreet laoreet sem. Sed arcu turpis, fringilla ac arcu sed, interdum imperdiet nisl. Sed pharetra dolor vitae nibh semper dapibus.
+
+            Nullam auctor efficitur nunc, sit amet vehicula nunc auctor sit amet. Nam a odio vestibulum odio vestibulum dictum vel nec nisl. Phasellus gravida nec purus feugiat fringilla. Cras gravida odio eget ipsum pellentesque, eget placerat sem consequat. Phasellus viverra ornare quam in facilisis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In efficitur tortor non velit aliquam vulputate. Proin consectetur scelerisque risus, id egestas magna fringilla a. Ut egestas tortor et sem fringilla fermentum. Morbi consequat dolor nibh, et sodales odio porta aliquam. Vestibulum ut eros metus. In hac habitasse platea dictumst. Morbi fermentum malesuada dapibus. Aenean dignissim id odio vel laoreet. Maecenas venenatis sit amet dui in condimentum. Nullam augue tortor, congue ac iaculis ac, volutpat ac orci.
+
+            Morbi pharetra sed felis sit amet ornare. Maecenas viverra nec ipsum id pretium. Integer odio magna, eleifend et tincidunt a, rutrum et velit. Vestibulum pulvinar risus sed elementum lacinia. Nam in tempor enim. Nulla sollicitudin tempus vehicula. Nunc sodales ornare mi, sit amet consectetur justo finibus fringilla. Nulla facilisi. Mauris tristique libero ut condimentum blandit. Nam ut lectus pellentesque, pharetra lorem id, maximus metus. Maecenas eleifend urna quis erat pretium lobortis. Ut ut tincidunt turpis, at vestibulum elit. Vestibulum ac nulla elit. Nunc congue sodales lacus, vitae ultricies metus sodales a. Nam tincidunt, magna eget hendrerit egestas, ligula odio convallis tellus, eu mattis lacus justo ut urna.
+
+            Ut lacinia mollis sem, sed commodo magna iaculis id. Nam id ipsum pharetra, ornare diam eu, euismod urna. Proin ipsum arcu, semper vitae euismod eu, vulputate et felis. Nam sit amet blandit magna. Phasellus quam odio, semper tempus urna at, tincidunt volutpat elit. Duis rhoncus sem sit amet finibus placerat. Aliquam lacinia id est vitae luctus. Vestibulum eu turpis a erat semper bibendum. Etiam sit amet consectetur mauris.
+
+            Sed eget gravida erat. In posuere orci sollicitudin, faucibus nisl eget, tincidunt enim. Pellentesque varius lorem tellus, quis pretium quam luctus ac. In vulputate est at mi lobortis, mattis consequat quam vehicula. Morbi sodales molestie vulputate. Curabitur id porta enim. Vivamus porttitor suscipit purus. Mauris accumsan libero a dolor euismod, id hendrerit arcu bibendum. Sed aliquam egestas nunc, at vestibulum elit sollicitudin consequat.
+        </p>
+     </div>
+    {% endif %}
+</div>
 {% endblock %}
