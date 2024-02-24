@@ -7,6 +7,7 @@ Both steps must be completed:
 1) To Install Python Requirements:
 ```
 pip install -r requirements.txt
+pip install -r dev-requirements.txt
 ```
 
 2) To Install Node Requirements:
@@ -24,7 +25,7 @@ npm install
    ```
    2) run the following command to "build" the sites styling sheet:
    ```
-   npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.min.css
+   npx tailwindcss -i ./static/src/input.css -o ./static/dist/css/output.min.css --minify
    ```
    3) _**NOTE:**_ Word of advice: If your going to need to do other commands within the terminal for your on goals, run the following command on a **seperate** terminal:
    ```
