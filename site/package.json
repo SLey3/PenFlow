@@ -6,7 +6,7 @@
     "Kendall Leonard"
   ],
   "scripts": {
-    "prepare": "mv ./node_modules ./static"
+    "prepare": "../scripts/install.sh"
   },
   "dependencies": {
     "flowbite": "^2.3.0",
