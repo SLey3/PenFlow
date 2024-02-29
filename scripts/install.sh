@@ -56,6 +56,11 @@ if [ -d "./static/node_modules" ]; then
         npm install flowbite --prefix ./static
         echo -e "\033[32m[SYSTEM] Flowbite installed\033[0m"
     fi
+
+    if [ -f "./static/package.json" ]; then
+        # cleans up installation by removing unecessary package json file
+        rm -f ./static/package.json
+    fi
     
     echo -e "\033[32m[SYSTEM] Node dependencies installed, installation complete \033[0m"
     exit 0
@@ -68,7 +73,6 @@ fi
 # move node_modules to static folder
 echo "[SYSTEM] Moving node_modules to static folder"
 
-echo "[SYSTEM] Running on a non-Windows system"
 mv ./node_modules ./static
 
 echo -e "\033[32m[SYSTEM] Installation complete\033[0m"

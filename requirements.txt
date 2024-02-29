@@ -8,3 +8,4 @@
 flask # backend framework
 gunicorn # deployment process
 psycopg2-binary # for postgress database
+flask_sqlalchemy # for postgress database
