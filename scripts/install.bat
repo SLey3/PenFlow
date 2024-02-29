@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 
 echo "[SYSTEM] Running install.bat"
 echo "[SYSTEM] Installing python dependencies..."
@@ -15,7 +16,7 @@ pip install -r dev-requirements.txt
 echo "ESC[32m[SYSTEM] Python dependencies installed ESC[0m"
 echo "[SYSTEM] Installing node dependencies..."
 
-cd "site"
+cd /d "site"
 
 call npm --version 2>NUL
 IF errorlevel 1 (
@@ -29,18 +30,18 @@ IF errorlevel 1 (
   exit 1
 )
 
-IF exist "%CD%\static\node_modules" (
+IF exist "!CD!\static\node_modules" (
   echo "[SYSTEM] Node modules directory installed. Manually checking for required modules... ."
   echo "[SYSTEM] Checking for tailwindcss..."
-  IF exist "%CD%\static\node_modules\tailwindcss" (
+  IF exist "!CD!\static\node_modules\tailwindcss" (
     echo "ESC[32m[SYSTEM] Tailwindcss is installed ESC[0m"
   ) ELSE (
     echo "ESC[31m[SYSTEM] Tailwindcss is not installed. Installing tailwindcss... ESC[0m"
     call npm install tailwindcss --prefix %CD%\static
-    echo "-e" "[32m[SYSTEM] Tailwindcss installed[0m"
+    echo "ESC[32m[SYSTEM] Tailwindcss installed ESC[0m"
   )
   echo "[SYSTEM] Checking for flowbite..."
-  IF exist "%CD%\static\node_modules\flowbite" (
+  IF exist "!CD!\static\node_modules\flowbite" (
     echo  "ESC[32m[SYSTEM] Flowbite is installed ESC[0m"
   ) ELSE (
     echo "ESC[31m[SYSTEM] Flowbite is not installed. Installing flowbite... ESC[0m"
@@ -55,5 +56,5 @@ IF exist "%CD%\static\node_modules" (
 )
 echo "[SYSTEM] Moving node_modules to static folder"
 echo "[SYSTEM] Running on a non-Windows system"
-move "%CD%\node_modules" "%CD%\static"
+move "!CD!\node_modules" "!CD!\static"
 echo "ESC[32m[SYSTEM] Installation complete ESC[0m"
