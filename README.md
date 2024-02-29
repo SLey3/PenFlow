@@ -10,7 +10,7 @@
    ./scripts/install.sh
 
    # For windows
-   ./scripts/install.bat
+   "scripts/install.bat"
    ```
 2) Contact me (sley@willamette.edu) for the .env file especially if your going to be on the website for testing of features (.env file is important for the site during development mode)
 3) Once .env file is recieved:

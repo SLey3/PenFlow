@@ -152,6 +152,7 @@ cython_debug/
 # npm ignores
 node_modules/
 package-lock.json
+.package-lock.json
 
 # mac related files
 .DS_Store
