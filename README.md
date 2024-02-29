@@ -27,7 +27,7 @@
    3) _**NOTE:**_ Word of advice: If your going to need to do other commands within the terminal for your on goals, run the following command on a **seperate** terminal:
    ```
    # Comment: this is to run the website as is on development mode
-   python -m app.py
+   python app.py
    ```
 
 ### Important Information
