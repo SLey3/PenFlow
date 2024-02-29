@@ -37,7 +37,7 @@ IF exist "!CD!\static\node_modules" (
     echo "ESC[32m[SYSTEM] Tailwindcss is installed ESC[0m"
   ) ELSE (
     echo "ESC[31m[SYSTEM] Tailwindcss is not installed. Installing tailwindcss... ESC[0m"
-    call npm install tailwindcss --prefix %CD%\static
+    call npm install tailwindcss --prefix !CD!\static
     echo "ESC[32m[SYSTEM] Tailwindcss installed ESC[0m"
   )
   echo "[SYSTEM] Checking for flowbite..."
@@ -45,7 +45,7 @@ IF exist "!CD!\static\node_modules" (
     echo  "ESC[32m[SYSTEM] Flowbite is installed ESC[0m"
   ) ELSE (
     echo "ESC[31m[SYSTEM] Flowbite is not installed. Installing flowbite... ESC[0m"
-    call npm install flowbite --prefix %CD%\static
+    call npm install flowbite --prefix !CD!\static
     echo "ESC[32m[SYSTEM] Flowbite installed ESC[0m"
   )
   echo "ESC[32m[SYSTEM] Node dependencies installed, installation complete ESC[0m"
