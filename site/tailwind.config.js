@@ -1,6 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+// configure path for mutliple systems
 
-const defaultTheme = require("./static/node_modules/tailwindcss/defaultTheme");
+const path = require('path');
+
+// paths
+let tailwinddefaultThemePath = `.${path.sep}static${path.sep}node_modules${path.sep}tailwindcss${path.sep}defaultTheme`;
+let flowbitePluginPath = `.${path.sep}static${path.sep}node_modules${path.sep}flowbite${path.sep}plugin`;
+
+
+const defaultTheme = require(tailwinddefaultThemePath);
 
 module.exports = {
   content: [
@@ -36,7 +44,7 @@ module.exports = {
     }
   },
   plugins: [
-    require("./static/node_modules/flowbite/plugin")
+    require(flowbitePluginPath)
   ],
 }
 
