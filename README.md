@@ -1,24 +1,21 @@
 ## Requirements
 - Python 3.11.1+
-- Node v20.11.0
+- Node v20.11.0+
 
 ## Installation
-Both steps must be completed:
-1) To Install Python Requirements:
-```
-pip install -r requirements.txt
-pip install -r dev-requirements.txt
-```
+1) To install requirements:
+   ```
+   # For mac
+   chmod +x ./scripts/install.sh
+   ./scripts/install.sh
 
-2) To Install Node Requirements:
-```
-cd site
-npm install
-```
-3) Contact me (sley@willamette.edu) for the .env file especially if your going to be on the website for testing of features (.env file is important for the site during development mode)
-4) Once .env file is recieved:
+   # For windows
+   ./scripts/install.bat
+   ```
+2) Contact me (sley@willamette.edu) for the .env file especially if your going to be on the website for testing of features (.env file is important for the site during development mode)
+3) Once .env file is recieved:
    1) place it in the **site** folder
-5) To run website in development mode (meaning outside of the production url):
+4) To run website in development mode (meaning outside of the production url):
    1) On the terminal change directory to the **site** folder:
    ```
    cd site

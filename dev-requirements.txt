@@ -1,1 +1,1 @@
-dotenv # Development env file parser
+python-dotenv # Development env file parser
