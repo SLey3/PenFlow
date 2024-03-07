@@ -6,6 +6,8 @@
 # Note: make sure to install all these requirements before working
 
 flask # backend framework
+flask-login # for user authentication
+itsdangerous # for user authentication
 gunicorn # deployment process
 psycopg2-binary # for postgress database
 flask_sqlalchemy # for postgress database

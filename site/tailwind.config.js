@@ -3,7 +3,7 @@
 
 const path = require('path');
 
-// paths
+// plugin and utility paths
 let tailwinddefaultThemePath = `.${path.sep}static${path.sep}node_modules${path.sep}tailwindcss${path.sep}defaultTheme`;
 let flowbitePluginPath = `.${path.sep}static${path.sep}node_modules${path.sep}flowbite${path.sep}plugin`;
 
@@ -37,6 +37,9 @@ module.exports = {
             fontVariationSettings: '"wdth" 100'
           }
         ]
+      },
+      screens: {
+        'sm1xs': {'raw': '(max-width: 639px)'},
       }
     },
     fontWeight: {
