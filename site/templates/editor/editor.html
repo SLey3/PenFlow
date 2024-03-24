@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="author" content="Sergio Ley Languren" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <link href="{{ url_for('static', filename='dist/css/source.min.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="{{ url_for('static', filename='node_modules/flowbite/dist/flowbite.min.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,530;1,530&family=PT+Sans&display=swap" rel="stylesheet">
+        <title>Penflow Editor</title>
+    </head>
+    <body>
+        <div id="overlay" class="fixed top-0 left-0 z-30 hidden w-full h-full overflow-hidden bg-black/50 backdrop-blur-sm"></div>
+        <div class="container grid grid-cols-1 lg:grid-flow-row lg:grid-cols-3 lg:gap-x-0 gap-y-0 justify-items-stretch">
+            <div class="col-span-1 pr-0 mr-0">
+                <!-- main sidebar -->
+                <button id="editor-sidebar-btn" data-drawer-target="editor-sidebar" data-drawer-toggle="editor-sidebar" aria-controls="editor-sidebar" type="button" class="inline-flex items-center p-2 mt-2 text-sm text-gray-500 rounded-lg ms-3 lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                    <span class="sr-only">Open sidebar</span>
+                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+                    </svg>
+                 </button>
+                 
+                 <aside id="editor-sidebar" class="fixed top-0 left-0 z-20 w-64 h-screen overflow-y-auto transition-transform -translate-x-full bg-white shadow lg:translate-x-0 hover:cursor-pointer" aria-label="Canvas Tools Sidebar">
+                    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+                       <ul class="space-y-2 font-medium font-ptsans">
+                          <li>
+                             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" data-sidebar-target="#txt-utility-secondary">
+                                <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-text-width" aria-hidden="true"></i>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Text Utility</span>
+                             </a>
+                          </li>
+                          <li>
+                             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" data-sidebar-target="#img-utility-secondary">
+                                <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-images"></i>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Image</span>
+                             </a>
+                          </li>
+                          <li>
+                             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" data-sidebar-target="#cursor-utility-secondary">
+                                <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-arrow-pointer"></i>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Cursor</span>
+                             </a>
+                          </li>
+                          <li>
+                            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" data-sidebar-target="#whiteboard-size-secondary">
+                                <i class="flex-shrink-0 w-5 text-gray-500 transition duration-75 hi5 group-hover:text-gray-900 fa-solid fa-expand"></i>
+                                <span class="flex-1 ms-3 whitespace-nowrap">Whiteboard Size</span>
+                            </a>
+                          </li>
+                       </ul>
+                    </div>
+                 </aside>
+
+                 <!-- Component Side bars -->
+                 <!-- Note: sidebars that individually expand from the right 
+                    when an item from the main side bar is clicked -->
+                  <aside id="txt-utility-secondary" class="fixed top-0 z-40 hidden h-screen bg-white shadow left-64 w-62 sm1xs:left-0 md:will-change-w-vis md:animate-expandright">
+                    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+                        <ul class="space-y-2 font-medium font-ptsans">
+                            <form id="txt-box-creation-form">
+                                <li>
+                                    <div class="flex items-center p-2 hover:bg-gray-100 group">
+                                        <label for="txt-size" class="m-3 text-gray-500 font-sm group-hover:text-gray-900 whitespace-nowrap">Font Size</label>
+                                        <input id="txt-size" type="number" max="50" value="12" class="flex-1 w-1/2 rounded-lg ms-3 whitespace-nowrap ring-gray-500 group-hover:ring-gray-900 placeholder:font-ptsans focus:ring-blue-900"/>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a id="txt-create" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                        <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-regular fa-file-lines" aria-hidden="true"></i>
+                                        <button type="submit" class="flex-1 text-gray-500 ms-3 whitespace-nowrap tex-wrap group-hover:text-gray-900">Create Textbox</button>
+                                    </a>
+                                </li>
+                            </form>
+                        </ul>
+                    </div>
+                  </aside>
+                  <aside id="img-utility-secondary" class="fixed top-0 z-40 hidden h-screen overflow-y-auto bg-white shadow left-64 w-62 sm1xs:left-0 md:will-change-w-vis md:animate-expandright">
+                    <div class="h-full px-3 py-4 bg-gray-50">
+                        <ul class="space-y-2 font-medium font-ptsans">
+                            <form id="img-creation-form">
+                                <li>
+                                    <div class="items-center flex-shrink-0 p-2 group">
+                                        <label for="img-vis" class="m-3 text-gray-500 font-sm group-hover:text-gray-900 whitespace-nowrap">Image Opacity</label>
+                                        <select id="img-vis" name="opacity" class="flex-1 w-1/2 border-t rounded-lg ms-3 whitespace-nowrap placeholder:font-ptsans focus:ring-cyan-500">
+                                            <option value="0.5" selected>Half Visibility</option>
+                                            <option value="1">Full Visibility</option>
+                                            <option value="custom">Custom</option>
+                                        </select>
+                                        <div id="img-custom-vis" class="hidden mt-3 text-xs">
+                                            <label for="img-vis-custom" class="m-3 mb-4 whitespace-nowrap">Image Opacity</label>
+                                            <input id="img-vis-custom" type="number" placeholder="0-1" min="0" max="1" step="0.01" class="flex-1 w-1/2 rounded-lg ms-3 whitespace-nowrap h-1/2 placeholder:font-ptsans focus: ring-cyan-500" />
+                                            <p class="text-[10px] sm1xs:break-words p-2 ml-1">Enter a value between 0-1</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a id="img-upload" href="#" class="items-center flex-shrink-0 p-2 rounded-lg hover:bg-gray-100 group">
+                                        <i class="flex-shrink-0 w-5 h-5 -mb-px duration-75 text-cyan-300 group-hover:text-cyan-500 fa-solid fa-images" aria-hidden="true"></i>
+                                        <span class="flex-1 text-gray-500 ms-3 sm1xs:break-words group-hover:text-gray-900 ">Upload Image</span>
+                                    </a>
+                                </li>
+                            </form>
+                        </ul>
+                    </div>
+                  </aside>
+                  <aside id="cursor-utility-secondary" class="fixed top-0 z-40 hidden h-screen overflow-y-auto bg-white shadow left-64 w-62 sm1xs:left-0 md:will-change-w-vis md:animate-expandright">
+                    <div class="h-full px-3 py-4 bg-gray-50">
+                        <ul class="space-y-2 font-medium font-ptsans">
+                            <li>
+                                <a id="cursor-default" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                    <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-arrow-pointer" aria-hidden="true"></i>
+                                    <span class="flex-1 text-gray-500 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Default</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="cursor-draw" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                    <i class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-paintbrush" aria-hidden="true"></i>
+                                    <span class="flex-1 text-gray-500 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Brush</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="cursor-select" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                    <i class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-object-group" aria-hidden="true"></i>
+                                    <span class="flex-1 text-gray-500 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Select</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                  </aside>
+                  <aside id="whiteboard-size-secondary" class="fixed top-0 left-0 z-40 hidden h-screen overflow-y-auto bg-white shadow lg:left-64 w-62 lg:will-change-w-vis lg:animate-expandright">
+                    <div class="h-full px-3 py-4 bg-gray-50">
+                        <ul class="space-y-2 font-medium font-ptsans">
+                            <li>
+                                <p class="p-3 text-base font-notoserif">Change Whiteboard Height</p>
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    <button id="wb-decrease-h" type="button" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 disabled:opacity-50 disabled:cursor-default disabled:hover:bg-white disabled:hover:text-gray-900" disabled>
+                                      Decrease Height
+                                    </button>
+                                    <button id="wb-increase-h" type="button" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+                                      Increase Height
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                  </aside>
+            </div>
+            
+            <div class="content-center py-5">
+                <div class="flex-auto mb-2">
+                    <h3 class="text-2xl font-notoserif text-slate-600">{% if new %}New Whiteboard{% else %}Edit (name of whiteboard){% endif %}</h3>
+                </div>
+                <form id="whiteboard" method="post" action="" class="z-10 p-3">
+                    <div class="mb-3">
+                        <canvas id="whiteboard-canvas" class="w-full h-full border-4 border-dashed cursor-default shadow-lg ps-80 lg:ps-[58rem] py-[21.5rem] hover:border-cyan-300 hover:shadow-cyan-300"></canvas>
+                        <div id="canvas-content" class="relative"></div>
+                    </div>
+                </form>
+            </div>
+
+            <div data-dial-init class="fixed end-6 md:end-14 bottom-6 lg:bottom-6 group hover:cursor-pointer">
+                <div id="editor-speedial-menu" class="flex flex-col items-center hidden mb-4 space-y-2">
+                    <button id="editor-save-btn" type="button" data-tooltip-target="editor-save" data-tooltip-placement="left" class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 shadow-sm hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none">
+                        <i class="w-5 h-5 text-[#74C0FC] fa-regular fa-floppy-disk" aria-label="true"></i>
+                        <span class="sr-only">Save</span>
+                    </button>
+                    <div id="editor-save" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 font-notoserif tooltip">
+                        Save
+                        <div class="tooltip-arrow" data-popper-arrow=></div>
+                    </div>
+                    <button id="tooltip-back-btn" type="button" data-tooltip-target="tooltip-back" data-tooltip-placement="left" class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 shadow-sm hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none">
+                        <i class="w-5 h-5 fa-solid fa-house" aria-hidden="true"></i>
+                        <span class="sr-only">Back</span>
+                    </button>
+                    <div id="tooltip-back" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 font-notoserif tooltip">
+                        Go Back Home
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                    <button id="tooltip-copy-btn" type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="left" class="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 shadow-sm hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 focus:outline-none">
+                        <i class="w-5 h-5 fa-solid fa-gears" aria-hidden="true"></i>
+                        <span class="sr-only">Settings</span>
+                    </button>
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-10 invisible inline-block w-auto px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 font-notoserif tooltip">
+                        Settings
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                </div>
+                <button type="button" data-dial-toggle="editor-speedial-menu" aria-controls="editor-speedial-menu" aria-expanded="false" class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+                    <svg class="w-5 h-5 transition-transform group-hover:rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                    </svg>
+                    <span class="sr-only">Open actions menu</span>
+                </button>
+            </div>
+            
+            <div id="unsave-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden absolute flex justify-center items-center z-50 w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-md max-h-full p-4">
+                    <div class="relative bg-white rounded-lg shadow">
+                        <div class="relative bg-white border-b rounded-lg">
+                            <h3 class="p-4 text-xl font-semibold text-gray-900 md:p-5 font-notoserif">
+                                Confirmation
+                            </h3>
+                        </div>
+                        <div class="p-4 text-center md:p-5 font-ptsans">
+                            <svg class="w-12 h-12 mx-auto mb-4 text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                            <h3 class="mb-5 text-lg font-normal text-gray-500">
+                                {% if new %}
+                                Do you want to proceed to delete this new whiteboard?
+                                {% else %}
+                                Do you wish to delete all changes?
+                                {% endif %}
+                            </h3>
+                        </div>
+                        <div class="grid grid-cols-2 p-4 border-t border-gray-200 rounded-b place-items-center">
+                            {% if new %}
+                            <button id="unsave-discard" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                Delete Whiteboard
+                            </button>
+                            {% endif %}
+                            <button id="unsave-save" type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 ms-3 my-3 text-center">
+                                Save Changes
+                            </button>
+                            <button id="unsave-cancel" type="button" class="{% if new %} col-span-2 flex justify-center w-2/3 {% endif %} w-auto py-2.5 px-5 ms-3 text-sm font-medium 
+                            text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 
+                            hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- scripts -->
+        <script type="text/javascript">
+            // secondary
+            $(document).ready(function(){
+                if (screen.availWidth <= 640) {
+                    $("#editor-sidebar-btn").on('click', function(){
+                        $("#overlay").toggleClass("hidden");
+                    });
+
+                    $("#overlay").on('click', function(){
+                        $(this).toggleClass("hidden");                        
+                    });
+                }
+            });
+        </script>
+        <script type="text/javascript">;
+            $(document).ready(function() {
+                let minimumHeight = 21.5;
+                const current_py =  (classList) => {
+                    let val;
+                    $.each(classList, function(i, c){
+                        if (c.startsWith("py-")) {
+                            classList.splice(i, 1);
+                            val = c
+                            return false;
+                        }
+                    });
+                    return val;
+                }
+                $("#wb-increase-h").on('click', function(e){
+                    e.preventDefault();
+                    let classList = Array.from($("#whiteboard-canvas").prop("classList"));
+                    let py;
+                    let new_py;
+                    // first check if the disabled attr is present on decrease btn and canvas is at minimum height
+                    if($("#wb-decrease-h").attr("disabled") && $("#whiteboard-canvas").hasClass(`py-[${minimumHeight}rem]`)) {
+                        $("#wb-decrease-h").removeAttr("disabled");
+                    }
+
+                    // process to increase height
+                    py = current_py(classList);
+                    py = py.replace(/py-\[([\d.]+)rem\]/, '$1');
+                    new_py = parseFloat(py) + minimumHeight;
+                    classList.push(`py-[${new_py}rem]`);
+                    $("#whiteboard-canvas").attr("class", classList.join(" "));
+                    $("#whiteboard-canvas").css("padding-bottom", `${new_py}rem`);
+                });
+                $("#wb-decrease-h").on('click', function(e){
+                    e.preventDefault();
+                    let classList = Array.from($("#whiteboard-canvas").prop("classList"));
+                    let py;
+                    let new_py
+                    py = current_py(classList);
+                    py = py.replace(/py-\[([\d.]+)rem\]/, '$1');
+                    new_py = parseFloat(py) - minimumHeight;
+                    classList.push(`py-[${new_py}rem]`);
+                    $("#whiteboard-canvas").attr("class", classList.join(" "));
+                    $("#whiteboard-canvas").css("padding-bottom", `${new_py}rem`);
+
+                    // check if height was reduced to minimum
+                    if(new_py == minimumHeight){
+                        $(this).attr("disabled", "");
+                    }
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            let selection  = ['cursor-default','cursor-brush','cursor-select']
+            const cursorFindAndReplace = (cur, classList) => {
+                $.each(classList, function(i, c){
+                    if(c.startsWith("cursor-")) {
+                        classList.splice(i, 1);
+                        classList.push(selection[selection.indexOf(cur)]);
+                        $("#whiteboard-canvas").attr("class", classList.join(" "));
+                        return false;
+                    }
+                });
+            }
+            $(document).ready(function(){
+                $("#cursor-default").on('click', function(){
+                    let classList = Array.from($("#whiteboard-canvas").prop("classList"));
+                    cursorFindAndReplace("cursor-default", classList);
+                    $("#overlay").triggerHandler("click");
+                });
+                $("#cursor-draw").on('click', function(){
+                    let classList = Array.from($("#whiteboard-canvas").prop("classList"));
+                    cursorFindAndReplace("cursor-brush", classList);
+                    $("#overlay").triggerHandler("click");
+                });
+                $("#cursor-select").on('click', function(){
+                    let classList = Array.from($("#whiteboard-canvas").prop("classList"));
+                    cursorFindAndReplace("cursor-select", classList);
+                    $("#overlay").triggerHandler("click");
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            // main sidebar secondary sidebars toggle
+            let sidebarId;
+            $(document).ready(function() {
+              $('[data-sidebar-target]').on('click', function(e) {
+                e.preventDefault();
+                sidebarId = $(this).data('sidebar-target');
+        
+                // Toggle visibility of secondary sidebar and activate overlay
+                $(sidebarId).toggleClass('hidden');
+                $('#overlay').toggleClass('hidden');
+              });
+        
+              $('#overlay').on('click', function() {
+                // Hide all secondary sidebars and deactivate overlay
+                $(sidebarId).addClass('hidden');
+                $(this).toggleClass('hidden');
+              });
+            });
+        </script>
+        <script type="text/javascript">
+            // checks if image side opacity selector is selected to custom and unhides the custom input (NOT form validation)
+            $(document).ready(function(){
+                $("#img-vis").on('change', function(){
+                    let selected_val = $(this).find("option:selected").attr("value");
+                    if (selected_val == "custom") {
+                        $("#img-custom-vis").removeClass("hidden");
+                    } else {
+                        let not_hidden = !$("#img-custom-vis").hasClass("hidden");
+                        if (selected_val != "custom" && not_hidden) {
+                            $("#img-custom-vis").addClass("hidden");
+                        }
+                    }
+                })
+            })
+        </script>
+        <script type="text/javascript">
+            // speedial menu actions
+            $(document).ready(function(){
+                let var_new = "{{ new }}".toLowerCase() == "true"; // converts string to bool
+                $("#tooltip-back-btn").on('click', function() {
+                    // TODO also create a method to detect changes and set a save variable to either true or false
+                    // TODO in the addition of the var_new if statement below, should include a "or not saved" check
+                    if (var_new == false || var_new == true) {
+                        $("#unsave-modal").toggleClass("hidden");
+                        $("#overlay").toggleClass("hidden")
+
+                        $("#unsave-discard").on('click', function(){
+                            // TODO: Add the functionaility to discard the new whiteboard
+                            window.location.href = '/';
+                        });
+
+                        $("#unsave-save").on('click', function(){
+                            // TODO: Add the functionaility to save the new whiteboard
+                            window.location.href = '/';
+                        });
+
+                        $("#unsave-cancel").on('click', function(){
+                            $("#unsave-modal").toggleClass("hidden");
+                            $("#overlay").toggleClass("hidden");
+                        });
+                    } else {
+                        window.location.href = '/';
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -21,6 +21,24 @@ module.exports = {
       padding: '1.5rem'
     },
     extend: {
+      keyframes: {
+        expandright: {
+          '0%': {
+            width: '0',
+            opacity: '0'
+          },
+          '100%': {
+            width: '250px',
+            opacity: '1'
+          } 
+        }
+      },
+      animation: {
+        expandright: "expandright 1s ease-out"
+      },
+      willChange: {
+        'w-vis' : 'width, opacity'
+      },
       fontFamily: {
         dancing: [
           '"Dancing Script", cursive', {
@@ -40,10 +58,17 @@ module.exports = {
       },
       screens: {
         'sm1xs': {'raw': '(max-width: 639px)'},
+      },
+      width: {
+        '62' : '250px'
+      },
+      fontWeight: {
+        '530' : '530'
+      },
+      cursor: {
+        'brush': 'url(../../cursors/brush.cur), default',
+        'select': 'url(../../cursors/select.cur), crosshair'
       }
-    },
-    fontWeight: {
-      '530' : '530'
     }
   },
   plugins: [

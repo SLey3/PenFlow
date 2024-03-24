@@ -1,15 +1,22 @@
 {% extends './layout/layout.html' %}
 {% block body %}
-<div id="form-container" class="absolute flex flex-col w-2/4 left-1/4 top-auto sm1xs:left-auto sm1xs:w-3/4 p-auto 
-bg-slate-50 rounded-lg shadow-xl shadow-slate-800/50 hover:shadow-sky-500">
-    <div class="justify-start flex-row p-3 mb-0 pb-0">
-        <h2 class="text-2xl font-530 font-notoserif text-slate-800">Register</h2>
+<div id="form-container" class="absolute top-auto flex flex-col w-2/4 rounded-lg shadow-xl left-1/4 sm1xs:left-auto sm1xs:w-3/4 p-auto 
+bg-slate-50 shadow-slate-800/50 hover:shadow-sky-500">
+    <div class="justify-start p-3 pb-0 mb-0">
+        <div class="flex flex-row">
+            <h2 class="text-2xl font-530 font-notoserif text-slate-800">Register</h2>
+            <p class="text-sm ms-auto font-ptsans">
+                Have an account? <a href="{{ url_for('routes.signin') }}" class="text-sky-500 hover:text-sky-600">Log In</a>
+            </p>
+        </div>
     </div>
-    <hr class="my-px ml-3 px-3 w-3/4 border-slate-200" />
+    <hr class="w-3/4 px-3 my-px ml-3 border-slate-200" />
     <div class="p-6">
-        <form id="register-form" method="post" action="{{ url_for('routes.register') }}" class="font-ptsans max-w-sm">
+        <form id="register-form" method="post" action="{{ url_for('routes.register') }}" class="max-w-sm font-ptsans">
             <div class="mb-4">
-                <label for="user-name" class="block mb-2 text-md text-slate-600">Name <span class="text-red-400">*</span></label>
+                <label for="user-name" class="block mb-2 text-md text-slate-600">
+                    Name <span class="text-red-400">*</span>
+                </label>
                 <input id="user-name" type="text" placeholder="Enter your name" class="rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required />
                 <div id="user-name-err-msg" class="hidden">
                     <p class="mt-2 text-sm text-red-600 font-530">
@@ -19,7 +26,9 @@ bg-slate-50 rounded-lg shadow-xl shadow-slate-800/50 hover:shadow-sky-500">
                 </div>
             </div>
             <div class="mb-4">
-                <label for="user-phone" class="block mb-2 text-md text-slate-600">Phone <span class="text-slate-400">(Optional) </span></label>
+                <label for="user-phone" class="block mb-2 text-md text-slate-600">
+                    Phone <span class="text-slate-400">(Optional)</span>
+                </label>
                 <input id="user-phone" type="text" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" class="rounded-lg focus:border-sky-500 focus:border-sky-500 block w-full p-2.5" />
                 <div id="user-phone-err-msg" class="hidden">
                     <p class="mt-2 text-sm text-red-600 font-530">
@@ -29,7 +38,9 @@ bg-slate-50 rounded-lg shadow-xl shadow-slate-800/50 hover:shadow-sky-500">
                 </div>
             </div>
             <div class="mb-4">
-                <label for="user-email" class="block mb-2 text-md text-slate-600">Email <span class="text-red-400">*</span></label>
+                <label for="user-email" class="block mb-2 text-md text-slate-600">
+                    Email <span class="text-red-400">*</span>
+                </label>
                 <input id="user-email" type="email" placeholder="Enter email" class="rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required />
                 <div id="user-email-err-msg" class="hidden">
                     <p class="mt-2 text-sm text-red-600 font-530">
@@ -39,7 +50,9 @@ bg-slate-50 rounded-lg shadow-xl shadow-slate-800/50 hover:shadow-sky-500">
                 </div>
             </div>
             <div class="mb-4">
-                <label for="user-pwd" class="block mb-2 text-md text-slate-600">Password <span class="text-red-400">*</span></label>
+                <label for="user-pwd" class="block mb-2 text-md text-slate-600">
+                    Password <span class="text-red-400">*</span>
+                </label>
                 <input id="user-pwd" type="password" placeholder="Enter password" class="rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required />
                 <div id="user-pwd-err-msg" class="hidden">
                     <p class="mt-2 text-sm text-red-600 font-530">
@@ -54,12 +67,16 @@ bg-slate-50 rounded-lg shadow-xl shadow-slate-800/50 hover:shadow-sky-500">
             </div>
             <div class="mb-4">
                 <div class="flex items-center mb-4">
-                    <input id="age-checkbox" type="checkbox" value="" class="w-4 h-4 text-sky-600 bg-slate-100 border-slate-300 rounded focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2" />
-                    <label for="default-checkbox" class="ms-2 text-sm font-medium text-slate-600">Confirm you are 10 years or older</label>
+                    <input id="age-checkbox" type="checkbox" value="" class="w-4 h-4 rounded text-sky-600 bg-slate-100 border-slate-300 focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2" />
+                    <label for="default-checkbox" class="text-sm font-medium ms-2 text-slate-600">
+                        Confirm you are 10 years or older  <span class="text-red-400">*</span>
+                    </label>
                 </div>
                 <div class="flex items-center">
-                    <input id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-sky-600 bg-slate-100 border-slate-300 rounded focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2">
-                    <label for="checked-checkbox" class="ms-2 text-sm font-medium text-gray-900">Have you read our <a href="{{ url_for('routes.tos') }}" class="text-sky-300">TOS</a>?</label>
+                    <input id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 rounded text-sky-600 bg-slate-100 border-slate-300 focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2">
+                    <label for="checked-checkbox" class="text-sm font-medium text-gray-900 ms-2">
+                        Have you read our <a href="{{ url_for('routes.tos') }}" class="text-sky-300">TOS</a>?  <span class="text-red-400">*</span>
+                    </label>
                 </div>
             </div>
             <div class="mb-2">
