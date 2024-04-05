@@ -1,5 +1,7 @@
 # Imports
 from flask import Flask
+from modules import db
+
 try:
     from dotenv import dotenv_values, load_dotenv
     dotenv_exists = True
@@ -20,6 +22,9 @@ if dotenv_exists:
     app.config["DEBUG"] = True
 else:
     app.config.from_mapping(os.environ)
+    
+# Database initialization
+db.init_app(app)
 
 # Blueprint registrations
 app.register_blueprint(routes)

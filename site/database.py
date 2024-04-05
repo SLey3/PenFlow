@@ -1,5 +1,6 @@
 
-from flask import Flask
+from config import getconfig
+from modules import db
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import Integer, String
@@ -12,14 +13,7 @@ from sqlalchemy.orm import relationship
 class Base(DeclarativeBase):
   pass
 
-db = SQLAlchemy(model_class=Base)
-
-# create the app
-app = Flask(__name__)
-# configure the SQLite database, relative to the app instance folder
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://mainuser:aYPVpG8ss6HrOUNNlHyZTn8i02COPWwr@dpg-cnfootgcmk4c73b0qa70-a/penflowdb"
 # initialize the app with the extension
-db.init_app(app)
 
 # Creating the base class for declarative table definitions
 Base = declarative_base()
@@ -55,7 +49,7 @@ class Drawing(Base):
     whiteboard = relationship("Whiteboard", backref="drawings")
 
 # Create engine
-engine = create_engine('postgresql://mainuser:aYPVpG8ss6HrOUNNlHyZTn8i02COPWwr@dpg-cnfootgcmk4c73b0qa70-a.oregon-postgres.render.com/penflowdb')
+engine = create_engine(getconfig("SQLALCHEMY_DATABASE_URI"))
 
 # Create tables
 Base.metadata.create_all(engine)

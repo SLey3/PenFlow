@@ -55,7 +55,7 @@ def new_editor():
 # api routes
 @api.route("/forgotpwd", methods=['POST'])
 def forgotpwd():
-    #serializer = URLSafeTimedSerializer(getconfig("SECRET_KEY"), getconfig("SERIALIZER_SALT"))
+
     data = request.get_json()
     res_type = "success"
     base_url = f"{url_for('routes.api.accountapimanager', type='forgot')}&s="
