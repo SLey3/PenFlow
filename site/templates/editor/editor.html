@@ -160,7 +160,7 @@
                 <form id="whiteboard" method="post" action="" class="z-10 p-3">
                     <div class="mb-3">
                         <canvas id="whiteboard-canvas" class="w-full h-full border-4 border-dashed cursor-default shadow-lg ps-80 lg:ps-[58rem] py-[21.5rem] hover:border-cyan-300 hover:shadow-cyan-300"></canvas>
-                        <div id="canvas-content" class="relative"></div>
+                        <div id="canvas-content" class="relative w-[696px] h-[775] py-[21.5rem]"></div>
                     </div>
                 </form>
             </div>
@@ -240,7 +240,7 @@
             </div>
         </div>
         <!-- scripts -->
-        <script type="text/javascript">
+        <script type="text/javascript"> //sizing
             // secondary
             $(document).ready(function(){
                 if (screen.availWidth <= 640) {
@@ -254,7 +254,7 @@
                 }
             });
         </script>
-        <script type="text/javascript">;
+        <script type="text/javascript">; //padding and height adjustment
             $(document).ready(function() {
                 let minimumHeight = 21.5;
                 const current_py =  (classList) => {
@@ -305,7 +305,7 @@
                 });
             });
         </script>
-        <script type="text/javascript">
+        <script type="text/javascript"> //cursors
             let selection  = ['cursor-default','cursor-brush','cursor-select']
             const cursorFindAndReplace = (cur, classList) => {
                 $.each(classList, function(i, c){
@@ -335,7 +335,7 @@
                 });
             });
         </script>
-        <script type="text/javascript">
+        <script type="text/javascript"> //sidebars
             // main sidebar secondary sidebars toggle
             let sidebarId;
             $(document).ready(function() {
@@ -355,7 +355,7 @@
               });
             });
         </script>
-        <script type="text/javascript">
+        <script type="text/javascript"> //sidebars
             // checks if image side opacity selector is selected to custom and unhides the custom input (NOT form validation)
             $(document).ready(function(){
                 $("#img-vis").on('change', function(){
@@ -371,8 +371,7 @@
                 })
             })
         </script>
-        <script type="text/javascript">
-            // speedial menu actions
+        <script type="text/javascript"> //speedial menu actions
             $(document).ready(function(){
                 let var_new = "{{ new }}".toLowerCase() == "true"; // converts string to bool
                 $("#tooltip-back-btn").on('click', function() {
@@ -401,6 +400,55 @@
                     }
                 });
             });
+        </script>
+        <script type="text/javascript"> //drawing
+            const canvas = document.getElementById("whiteboard-canvas");
+            ctx = canvas.getContext("2d");
+            // global variables with default value
+            let prevMouseX, prevMouseY, snapshot,
+            isDrawing = false,
+            selectedTool = "brush",
+            brushWidth = 5,
+            selectedColor = "#000";
+            const setCanvasBackground = () => {
+                // setting whole canvas background to white, so the downloaded img background will be white
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = selectedColor; // setting fillstyle back to the selectedColor, it'll be the brush color
+            }
+            window.addEventListener("load", () => {
+                // setting canvas width/height.. offsetwidth/height returns viewable width/height of an element
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                setCanvasBackground();
+            });
+            const startDraw = (e) => {
+                isDrawing = true;
+                prevMouseX = e.offsetX; // passing current mouseX position as prevMouseX value
+                prevMouseY = e.offsetY; // passing current mouseY position as prevMouseY value
+                ctx.beginPath(); // creating new path to draw
+                ctx.lineWidth = brushWidth; // passing brushSize as line width
+                ctx.strokeStyle = selectedColor; // passing selectedColor as stroke style
+                ctx.fillStyle = selectedColor; // passing selectedColor as fill style
+                // copying canvas data & passing as snapshot value.. this avoids dragging the image
+                snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            }
+
+            const drawing = (e) => {
+                if(!isDrawing) return; // if isDrawing is false return from here
+                ctx.putImageData(snapshot, 0, 0); // adding copied canvas data on to this canvas
+
+                if($("#whiteboard-canvas").hasClass("cursor-brush")) { // || selectedTool === "eraser"
+                    // if selected tool is eraser then set strokeStyle to white 
+                    // to paint white color on to the existing canvas content else set the stroke color to selected color
+                    //ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
+                    ctx.lineTo(e.offsetX, e.offsetY); // creating line according to the mouse pointer
+                    ctx.stroke(); // drawing/filling line with color
+                } 
+            }
+            canvas.addEventListener("mousedown", startDraw);
+            canvas.addEventListener("mousemove", drawing);
+            canvas.addEventListener("mouseup", () => isDrawing = false);
         </script>
     </body>
 </html>
