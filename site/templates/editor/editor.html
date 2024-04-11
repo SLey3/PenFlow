@@ -48,12 +48,6 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Cursor</span>
                              </a>
                           </li>
-                          <li>
-                            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" data-sidebar-target="#whiteboard-size-secondary">
-                                <i class="flex-shrink-0 w-5 text-gray-500 transition duration-75 hi5 group-hover:text-gray-900 fa-solid fa-expand"></i>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Whiteboard Size</span>
-                            </a>
-                          </li>
                        </ul>
                     </div>
                  </aside>
@@ -134,23 +128,6 @@
                         </ul>
                     </div>
                   </aside>
-                  <aside id="whiteboard-size-secondary" class="fixed top-0 left-0 z-40 hidden h-screen overflow-y-auto bg-white shadow lg:left-64 w-62 lg:will-change-w-vis lg:animate-expandright">
-                    <div class="h-full px-3 py-4 bg-gray-50">
-                        <ul class="space-y-2 font-medium font-ptsans">
-                            <li>
-                                <p class="p-3 text-base font-notoserif">Change Whiteboard Height</p>
-                                <div class="inline-flex rounded-md shadow-sm" role="group">
-                                    <button id="wb-decrease-h" type="button" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 disabled:opacity-50 disabled:cursor-default disabled:hover:bg-white disabled:hover:text-gray-900" disabled>
-                                      Decrease Height
-                                    </button>
-                                    <button id="wb-increase-h" type="button" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
-                                      Increase Height
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                  </aside>
             </div>
             
             <div class="content-center py-5">
@@ -159,8 +136,8 @@
                 </div>
                 <form id="whiteboard" method="post" action="" class="z-10 p-3">
                     <div class="mb-3">
-                        <canvas id="whiteboard-canvas" class="w-full h-full border-4 border-dashed cursor-default shadow-lg ps-80 lg:ps-[58rem] py-[21.5rem] hover:border-cyan-300 hover:shadow-cyan-300"></canvas>
-                        <div id="canvas-content" class="relative w-[696px] h-[775] py-[21.5rem]"></div>
+                        <canvas id="whiteboard-canvas" class="absolute w-[58rem] border-4 border-dashed cursor-default shadow-l hover:border-cyan-300 hover:shadow-cyan-300" height="6000" width="6000"></canvas>
+                        <div id="canvas-content"></div>
                     </div>
                 </form>
             </div>
@@ -254,57 +231,7 @@
                 }
             });
         </script>
-        <script type="text/javascript">; //padding and height adjustment
-            $(document).ready(function() {
-                let minimumHeight = 21.5;
-                const current_py =  (classList) => {
-                    let val;
-                    $.each(classList, function(i, c){
-                        if (c.startsWith("py-")) {
-                            classList.splice(i, 1);
-                            val = c
-                            return false;
-                        }
-                    });
-                    return val;
-                }
-                $("#wb-increase-h").on('click', function(e){
-                    e.preventDefault();
-                    let classList = Array.from($("#whiteboard-canvas").prop("classList"));
-                    let py;
-                    let new_py;
-                    // first check if the disabled attr is present on decrease btn and canvas is at minimum height
-                    if($("#wb-decrease-h").attr("disabled") && $("#whiteboard-canvas").hasClass(`py-[${minimumHeight}rem]`)) {
-                        $("#wb-decrease-h").removeAttr("disabled");
-                    }
-
-                    // process to increase height
-                    py = current_py(classList);
-                    py = py.replace(/py-\[([\d.]+)rem\]/, '$1');
-                    new_py = parseFloat(py) + minimumHeight;
-                    classList.push(`py-[${new_py}rem]`);
-                    $("#whiteboard-canvas").attr("class", classList.join(" "));
-                    $("#whiteboard-canvas").css("padding-bottom", `${new_py}rem`);
-                });
-                $("#wb-decrease-h").on('click', function(e){
-                    e.preventDefault();
-                    let classList = Array.from($("#whiteboard-canvas").prop("classList"));
-                    let py;
-                    let new_py
-                    py = current_py(classList);
-                    py = py.replace(/py-\[([\d.]+)rem\]/, '$1');
-                    new_py = parseFloat(py) - minimumHeight;
-                    classList.push(`py-[${new_py}rem]`);
-                    $("#whiteboard-canvas").attr("class", classList.join(" "));
-                    $("#whiteboard-canvas").css("padding-bottom", `${new_py}rem`);
-
-                    // check if height was reduced to minimum
-                    if(new_py == minimumHeight){
-                        $(this).attr("disabled", "");
-                    }
-                });
-            });
-        </script>
+     
         <script type="text/javascript"> //cursors
             let selection  = ['cursor-default','cursor-brush','cursor-select']
             const cursorFindAndReplace = (cur, classList) => {
