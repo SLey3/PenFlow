@@ -42,12 +42,30 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Image</span>
                              </a>
                           </li>
-                          <li>
+                          <!-- <li>
                              <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" data-sidebar-target="#cursor-utility-secondary">
                                 <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-arrow-pointer"></i>
                                 <span class="flex-1 ms-3 whitespace-nowrap">Cursor</span>
                              </a>
-                          </li>
+                          </li> -->
+                          <li>
+                            <a id="cursor-default" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-arrow-pointer" aria-hidden="true"></i>
+                                <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Default</span>
+                            </a>
+                            </li>
+                            <li>
+                                <a id="cursor-draw" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                    <i class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-paintbrush" aria-hidden="true"></i>
+                                    <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Brush</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="cursor-select" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                    <i class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-object-group" aria-hidden="true"></i>
+                                    <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Select</span>
+                                </a>
+                            </li>
                        </ul>
                     </div>
                  </aside>
@@ -272,13 +290,13 @@
         
                 // Toggle visibility of secondary sidebar and activate overlay
                 $(sidebarId).toggleClass('hidden');
-                $('#overlay').toggleClass('hidden');
+                //$('#overlay').toggleClass('hidden');
               });
         
               $('#overlay').on('click', function() {
                 // Hide all secondary sidebars and deactivate overlay
                 $(sidebarId).addClass('hidden');
-                $(this).toggleClass('hidden');
+                //$(this).toggleClass('hidden');
               });
             });
         </script>
@@ -297,6 +315,38 @@
                     }
                 })
             })
+        </script>
+        <script> //active buttons
+            // Function to add event listeners to buttons
+            function setupButton(buttonId) {
+                var button = document.getElementById(buttonId);
+
+                button.addEventListener('click', function() {
+                    // If the clicked button is not already active, activate it and deactivate others
+                    if (!button.classList.contains('active-button')) {
+                        // First, deactivate all other buttons
+                        deactivateAllButtons();
+                        // Then, activate the clicked button
+                        button.classList.add('active-button');
+                    }
+                    // If it's already active, do nothing to prevent deactivation
+                });
+            }
+
+            // Function to deactivate all buttons
+            function deactivateAllButtons() {
+                var allButtons = document.querySelectorAll('.items-center');
+                allButtons.forEach(function(button) {
+                    button.classList.remove('active-button');
+                });
+            }
+
+            // Setup buttons
+            setupButton('cursor-default');
+            setupButton('cursor-draw');
+            setupButton('cursor-select');
+
+
         </script>
         <script type="text/javascript"> //speedial menu actions
             $(document).ready(function(){
@@ -376,6 +426,9 @@
             canvas.addEventListener("mousedown", startDraw);
             canvas.addEventListener("mousemove", drawing);
             canvas.addEventListener("mouseup", () => isDrawing = false);
+        </script>
+        <script> //text
+
         </script>
     </body>
 </html>
