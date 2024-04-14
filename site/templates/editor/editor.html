@@ -126,6 +126,8 @@
                   <aside id="brush-secondary" class="fixed top-0 z-40 hidden h-screen overflow-y-auto bg-white shadow left-64 w-62 sm1xs:left-0 md:will-change-w-vis md:animate-expandright">
                     <div class="h-full px-3 py-4 bg-gray-50 items-center parent-div">
                         <span class="label">Color:</span>
+                        <div style="padding: 10px;">
+                        </div>
                         <p class="brush-palette flex items-center">
                             <span class="grapefruit" data-color-target="#ED5565"></span>
                             <span class="bittersweet" data-color-target="#FC6E51"></span>
@@ -140,6 +142,16 @@
                             <span class="mediumgray" data-color-target="#646668"></span>
                             <span class="darkgray active-color" data-color-target="#000000"></span>
                         </p>
+                        <div style="padding: 10px;">
+                        </div>
+                        <span class="label eraser" data-color-target="#ffffff">Eraser</span>
+                        <div style="padding: 10px;">
+                        </div>
+                        Size
+                        <span id="brush-size-marker">5</span> <!-- Initial display of the brush size -->
+                        <div class="options">
+                            <input type="range" id="size-slider" min="1" max="30" value="5">
+                        </div>                        
                     </div>
                   </aside>
             </div>
@@ -407,6 +419,26 @@
             selectedTool = "brush",
             brushWidth = 5,
             selectedColor = "#000000";
+
+            sizeSlider = document.querySelector("#size-slider"),
+            sizeSlider.addEventListener("input", () => {
+                brushWidth = sizeSlider.value;
+                document.getElementById("brush-size-marker").textContent = brushWidth;
+            });
+            document.addEventListener("DOMContentLoaded", () => {
+                const sizeSlider = document.querySelector("#size-slider");
+                const brushSizeMarker = document.getElementById("brush-size-marker");
+
+                // Set the initial value
+                brushWidth = sizeSlider.value;
+                brushSizeMarker.textContent = brushWidth;
+
+                // Update on slider input
+                sizeSlider.addEventListener("input", () => {
+                    brushWidth = sizeSlider.value;
+                    brushSizeMarker.textContent = brushWidth;
+                });
+            });
             const setCanvasBackground = () => {
                 // setting whole canvas background to white, so the downloaded img background will be white
                 ctx.fillStyle = "#fff";
@@ -435,10 +467,7 @@
                 if(!isDrawing) return; // if isDrawing is false return from here
                 ctx.putImageData(snapshot, 0, 0); // adding copied canvas data on to this canvas
 
-                if($("#whiteboard-canvas").hasClass("cursor-brush")) { // || selectedTool === "eraser"
-                    // if selected tool is eraser then set strokeStyle to white 
-                    // to paint white color on to the existing canvas content else set the stroke color to selected color
-                    //ctx.strokeStyle = selectedTool === "eraser" ? "#fff" : selectedColor;
+                if($("#whiteboard-canvas").hasClass("cursor-brush")) {
                     ctx.lineTo(e.offsetX + 6, e.offsetY +26); // creating line according to the mouse pointer
                     ctx.stroke(); // drawing/filling line with color
                 } 
