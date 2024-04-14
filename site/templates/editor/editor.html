@@ -13,6 +13,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,530;1,530&family=PT+Sans&display=swap" rel="stylesheet">
+        <link href="{{ url_for('static', filename='dist/css/editor.css') }}" rel="stylesheet" />
         <title>Penflow Editor</title>
     </head>
     <body>
@@ -55,7 +56,7 @@
                             </a>
                             </li>
                             <li>
-                                <a id="cursor-draw" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                <a id="cursor-draw" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group" data-sidebar-target="#brush-secondary">
                                     <i class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-paintbrush" aria-hidden="true"></i>
                                     <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Brush</span>
                                 </a>
@@ -122,28 +123,23 @@
                         </ul>
                     </div>
                   </aside>
-                  <aside id="cursor-utility-secondary" class="fixed top-0 z-40 hidden h-screen overflow-y-auto bg-white shadow left-64 w-62 sm1xs:left-0 md:will-change-w-vis md:animate-expandright">
-                    <div class="h-full px-3 py-4 bg-gray-50">
-                        <ul class="space-y-2 font-medium font-ptsans">
-                            <li>
-                                <a id="cursor-default" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
-                                    <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-arrow-pointer" aria-hidden="true"></i>
-                                    <span class="flex-1 text-gray-500 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Default</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a id="cursor-draw" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
-                                    <i class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-paintbrush" aria-hidden="true"></i>
-                                    <span class="flex-1 text-gray-500 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Brush</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a id="cursor-select" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
-                                    <i class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-object-group" aria-hidden="true"></i>
-                                    <span class="flex-1 text-gray-500 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Select</span>
-                                </a>
-                            </li>
-                        </ul>
+                  <aside id="brush-secondary" class="fixed top-0 z-40 hidden h-screen overflow-y-auto bg-white shadow left-64 w-62 sm1xs:left-0 md:will-change-w-vis md:animate-expandright">
+                    <div class="h-full px-3 py-4 bg-gray-50 items-center parent-div">
+                        <span class="label">Color:</span>
+                        <p class="brush-palette flex items-center">
+                            <span class="grapefruit" data-color-target="#ED5565"></span>
+                            <span class="bittersweet" data-color-target="#FC6E51"></span>
+                            <span class="sunflower" data-color-target="#FFCE54"></span>
+                            <span class="grass" data-color-target="#A0D468"></span>
+                            <span class="mint" data-color-target="#48CFAD"></span>
+                            <span class="aqua" data-color-target="#4FC1E9"></span>
+                            <span class="bluejeans" data-color-target="#5D9CEC"></span>
+                            <span class="lavender" data-color-target="#AC92EC"></span>
+                            <span class="pinkrose" data-color-target="#EC87C0"></span>
+                            <span class="lightgray" data-color-target="#aaaaaa"></span>
+                            <span class="mediumgray" data-color-target="#646668"></span>
+                            <span class="darkgray active-color" data-color-target="#000000"></span>
+                        </p>
                     </div>
                   </aside>
             </div>
@@ -300,7 +296,7 @@
               });
             });
         </script>
-        <script type="text/javascript"> //sidebars
+        <script type="text/javascript"> //image side opacity selector
             // checks if image side opacity selector is selected to custom and unhides the custom input (NOT form validation)
             $(document).ready(function(){
                 $("#img-vis").on('change', function(){
@@ -378,6 +374,30 @@
                 });
             });
         </script>
+        <script> //color selection
+            let colorId;
+            $(document).ready(function() {
+            $('[data-color-target]').on('click', function(e) {
+                e.preventDefault();
+                colorId = $(this).data('color-target');
+                selectedColor = colorId;
+                
+            });
+            $('[data-color-target]').on('click', function(e) {
+                e.preventDefault();
+                colorId = $(this).data('color-target');
+                selectedColor = colorId;
+                console.log("Selected Color: ", selectedColor); // Debugging output
+            });
+            });
+            $(document).ready(function() {
+                $('[data-color-target]').on('click', function(e) {
+                    e.preventDefault();
+                    $('[data-color-target]').removeClass('active-color'); // Remove the class from all elements
+                    $(this).addClass('active-color'); // Add class to the clicked element
+                });
+            });
+        </script>
         <script type="text/javascript"> //drawing
             const canvas = document.getElementById("whiteboard-canvas");
             ctx = canvas.getContext("2d");
@@ -386,7 +406,7 @@
             isDrawing = false,
             selectedTool = "brush",
             brushWidth = 5,
-            selectedColor = "#000";
+            selectedColor = "#000000";
             const setCanvasBackground = () => {
                 // setting whole canvas background to white, so the downloaded img background will be white
                 ctx.fillStyle = "#fff";
