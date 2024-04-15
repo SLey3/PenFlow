@@ -1,0 +1,94 @@
+.parent-div {
+  display: flex;
+  flex-direction: column;
+  align-items: top;
+  justify-content: top;
+  height: 100%;
+  padding: 20px 4px;
+  background-color: #f0f0f0;
+}
+
+.options #size-slider{
+  width: 100%;
+  height: 5px;
+  margin-top: 10px;
+}
+
+.label {
+  display: block; /* Makes it a block element so padding has the desired effect */
+  padding-bottom: 3px; /* Adjust the space below the label */
+}
+
+.active-color {
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.5); /* Adjust color and spread based on preference */
+}
+
+.eraser {
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+}
+.brush-palette {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 1em));
+    grid-gap: 10px;
+    justify-items: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+.brush-palette span {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid black;
+  }
+
+.brush-palette .grapefruit {
+  background-color:#ED5565; border-color: #DA4453;
+}
+
+.brush-palette .bittersweet {
+  background-color: #FC6E51; border-color: #E9573F;
+}
+
+.brush-palette .sunflower {
+  background-color: #FFCE54; border-color: #F6BB42;
+}
+
+.brush-palette .grass {
+  background-color: #A0D468; border-color: #8CC152;
+}
+
+.brush-palette .mint {
+  background-color: #48CFAD; border-color: #37BC9B;
+}
+
+.brush-palette .aqua {
+  background-color: #4FC1E9; border-color: #3BAFDA;
+}
+
+.brush-palette .bluejeans {
+  background-color: #5D9CEC; border-color: #4A89DC;
+}
+
+.brush-palette .lavender {
+  background-color: #AC92EC; border-color: #967ADC;
+}
+
+.brush-palette .pinkrose {
+  background-color: #EC87C0; border-color: #D770AD;
+}
+
+.brush-palette .lightgray {
+  background-color: #aaaaaa; border-color: #E6E9ED;
+}
+
+.brush-palette .mediumgray {
+  background-color: #646668; border-color: #AAB2BD; 
+}
+
+.brush-palette .darkgray {
+  background-color: #000000; border-color: #434A54;
+}
