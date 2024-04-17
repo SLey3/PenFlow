@@ -14,6 +14,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,530;1,530&family=PT+Sans&display=swap" rel="stylesheet">
         <link href="{{ url_for('static', filename='src/editor.css') }}" rel="stylesheet" />
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <title>Penflow Editor</title>
     </head>
     <body>
@@ -43,14 +46,8 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">Image</span>
                              </a>
                           </li>
-                          <!-- <li>
-                             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group" data-sidebar-target="#cursor-utility-secondary">
-                                <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-arrow-pointer"></i>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Cursor</span>
-                             </a>
-                          </li> -->
                           <li>
-                            <a id="cursor-default" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                            <a id="cursor-default" href="#" class="active-button items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
                                 <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-solid fa-arrow-pointer" aria-hidden="true"></i>
                                 <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-gray-900 ">Default</span>
                             </a>
@@ -78,17 +75,17 @@
                     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
                         <ul class="space-y-2 font-medium font-ptsans">
                             <form id="txt-box-creation-form">
-                                <li>
+                                <!-- <li>
                                     <div class="flex items-center p-2 hover:bg-gray-100 group">
                                         <label for="txt-size" class="m-3 text-gray-500 font-sm group-hover:text-gray-900 whitespace-nowrap">Font Size</label>
                                         <input id="txt-size" type="number" max="50" value="12" class="flex-1 w-1/2 rounded-lg ms-3 whitespace-nowrap ring-gray-500 group-hover:ring-gray-900 placeholder:font-ptsans focus:ring-blue-900"/>
                                     </div>
-                                </li>
+                                </li> -->
                                 <li>
-                                    <a id="txt-create" href="#" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
+                                    <button id="txt-create" class="items-center flex-shrink-0 block p-2 rounded-lg hover:bg-gray-100 group">
                                         <i class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 fa-regular fa-file-lines" aria-hidden="true"></i>
-                                        <button type="submit" class="flex-1 text-gray-500 ms-3 whitespace-nowrap tex-wrap group-hover:text-gray-900">Create Textbox</button>
-                                    </a>
+                                        Create Textbox
+                                    </button>
                                 </li>
                             </form>
                         </ul>
@@ -164,6 +161,11 @@
                     <div class="mb-3">
                         <canvas id="whiteboard-canvas" class="absolute w-[58rem] border-4 border-dashed cursor-default shadow-l hover:border-cyan-300 hover:shadow-cyan-300" height="6000" width="6000"></canvas>
                         <div id="canvas-content"></div>
+                        <div id="editor-container" style="width: 300px; padding: 5px; border: 1px solid #ccc;">
+                            <div id="editor">
+                                <p><br /></p>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -476,8 +478,37 @@
             canvas.addEventListener("mousemove", drawing);
             canvas.addEventListener("mouseup", () => isDrawing = false);
         </script>
-        <script> //text
-
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.5/dist/quill.js"> //Quilljs
         </script>
+        <script> //text
+            var quill = new Quill('#editor', {
+                theme: 'snow'
+            });
+            quill.disable(); // Start with the editor disabled
+
+            $('#editor-container').draggable().resizable({
+                alsoResize: "#editor"
+            });
+            $( "#draggable" ).draggable({
+                containment: "#whiteboard-canvas"
+            });
+            $('#editor-container').on('dblclick', function() {
+                if (quill.isEnabled()) {
+                    quill.disable();
+                    $(this).addClass('non-editable');
+                } else {
+                    quill.enable();
+                    $(this).removeClass('non-editable');
+                }
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#txt-create').click(function(event) {
+                    event.preventDefault(); // Prevent the default button click behavior
+                    $('#editor-container').toggle(); // Toggle the visibility of the text box
+                });
+            });
+        </script>        
     </body>
 </html>

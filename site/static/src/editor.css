@@ -92,3 +92,10 @@
 .brush-palette .darkgray {
   background-color: #000000; border-color: #434A54;
 }
+
+#editor-container {
+  width: 300px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  display: none; /* Initially hidden */
+}
