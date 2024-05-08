@@ -111,9 +111,10 @@
                                     </div>
                                 </li>
                                 <li>
+                                    <input type="file" id="upload-input" style="display: none;" accept="image/*">
                                     <a id="img-upload" href="#" class="items-center flex-shrink-0 p-2 rounded-lg hover:bg-gray-100 group">
                                         <i class="flex-shrink-0 w-5 h-5 -mb-px duration-75 text-cyan-300 group-hover:text-cyan-500 fa-solid fa-images" aria-hidden="true"></i>
-                                        <span class="flex-1 text-gray-500 ms-3 sm1xs:break-words group-hover:text-gray-900 ">Upload Image</span>
+                                        <span class="flex-1 text-gray-500 ms-3 sm1xs:break-words group-hover:text-gray-900">Upload Image</span>
                                     </a>
                                 </li>
                             </form>
@@ -161,6 +162,7 @@
                     <div class="mb-3">
                         <canvas id="whiteboard-canvas" class="absolute w-[58rem] border-4 border-dashed cursor-default shadow-l hover:border-cyan-300 hover:shadow-cyan-300" height="6000" width="6000"></canvas>
                         <div id="canvas-content"></div>
+                        <div id="img-container" style="width: 100%; position: relative;" class="absolute w-[58rem] cursor-default" height="6000" width="6000"></div>                                
                         <div id="editor-container" style="width: 300px; padding: 5px; border: 1px solid #ccc;">
                             <div id="editor">
                                 <p><br /></p>
@@ -509,6 +511,38 @@
                     $('#editor-container').toggle(); // Toggle the visibility of the text box
                 });
             });
-        </script>        
+        </script>  
+        <script> //upload img
+            $(document).ready(function() {
+                $('#img-upload').click(function() {
+                    $('#upload-input').click();
+                });
+
+                $('#upload-input').change(function(event) {
+                    const file = event.target.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = e.target.result;
+                        imgElement.style.position = 'absolute';
+                        imgElement.style.resize = 'both';
+                        imgElement.style.overflow = 'auto';
+                        imgElement.style.width = '100%';
+                        imgElement.style.height = 'auto';
+
+                        $('#img-container').html('');
+                        $('#img-container').append(imgElement);
+                        $('#img-container').resizable({ handles: 'all' });  // Add resizable handles on all sides
+                        $('#img-container').draggable({ containment: false });  // Allow dragging without containment
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+            
+            });
+
+        </script>
+              
     </body>
 </html>
